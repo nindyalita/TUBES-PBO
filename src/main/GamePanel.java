@@ -7,24 +7,36 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
+import entity.Player;
+
 public class GamePanel extends JPanel implements Runnable {
 
     // screen settings
     final int orginalTileSize = 16; // original size of character or object
     final int scale = 3; // we make object with 16x16 pixel but lok in the screen in 48x48
 
-    final int tileSize = orginalTileSize * scale; // 48x48
+    public final int tileSize = orginalTileSize * scale; // 48x48
     final int maxScreenCol = 16;// max col to see in the screen
     final int maxScreenRow = 12;// max row to see in the screen
     final int screenWidth = tileSize * maxScreenCol; // 768 pixel
     final int screenHeight = tileSize * maxScreenRow; // 576 pixel
 
-    KeyHandler keyH = new KeyHandler();
+    // FPS (frame per second)
+    int FPS = 60;
+
+    KeyHandler keyH = new KeyHandler(); // instansisasi keyhandler
 
     // actually object in game is static but it like move because in 60 s the object
     // is actually move so it look like real, to make this we make clock on the game
     // with thread
     Thread gameThread;
+
+    Player player = new Player(this, keyH); // intansiasi player
+
+    // set player default position
+    int playerX = 100;
+    int playerY = 100;
+    int playerSpeed = 4; // player move 4 pixels
 
     public GamePanel() {
         // size of jpanel or content
@@ -32,7 +44,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH); // add keylistener to gamepanel
-        this.setFocusable(true);
+        this.setFocusable(true); // make gamePanel focus to receive key input
     }
 
     public void startGameThread() {
@@ -42,26 +54,46 @@ public class GamePanel extends JPanel implements Runnable {
 
     @Override
     public void run() {
+        double drawInterval = 1000000000 / FPS; // 0,01666 second
+        double delta = 0;
+        long lastTime = System.nanoTime();
+        long currentTime;
+
         while (gameThread != null) {
             // System.out.println("running loop game");
+            // long currentTime = System.nanoTime();
+            // System.out.println("current time : " + currentTime);
 
-            // 1, UPDATE : update ifnoramtion such as character position
-            update();
-            // 2. DRAW : draw the screen tih the updated information
-            repaint();
+            currentTime = System.nanoTime();
+            delta += (currentTime - lastTime) / drawInterval;
+            lastTime = currentTime;
+
+            if (delta >= 1) {
+                update();
+                repaint();
+                delta--;
+
+            }
+            /*
+             * NOTE!
+             * 1, UPDATE : update ifnoramtion such as character position
+             * update();
+             * 
+             * 2. DRAW : draw the screen tih the updated information
+             * repaint();
+             */
         }
     }
 
     public void update() {
-
+        player.update();
     }
 
     public void paintComponent(Graphics g) { // standart method to draw object in java
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        g2.setColor(Color.white);
-        g2.fillRect(100, 100, tileSize, tileSize);
+        player.draw(g2);
 
         g2.dispose();
     }
