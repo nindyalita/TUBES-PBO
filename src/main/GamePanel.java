@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 
 import entity.Player;
+import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -16,27 +17,22 @@ public class GamePanel extends JPanel implements Runnable {
     final int scale = 3; // we make object with 16x16 pixel but lok in the screen in 48x48
 
     public final int tileSize = orginalTileSize * scale; // 48x48
-    final int maxScreenCol = 16;// max col to see in the screen
-    final int maxScreenRow = 12;// max row to see in the screen
-    final int screenWidth = tileSize * maxScreenCol; // 768 pixel
-    final int screenHeight = tileSize * maxScreenRow; // 576 pixel
+    public final int maxScreenCol = 16;// max col to see in the screen
+    public final int maxScreenRow = 12;// max row to see in the screen
+    public final int screenWidth = tileSize * maxScreenCol; // 768 pixel
+    public final int screenHeight = tileSize * maxScreenRow; // 576 pixel
 
     // FPS (frame per second)
     int FPS = 60;
 
+    TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler(); // instansisasi keyhandler
 
     // actually object in game is static but it like move because in 60 s the object
     // is actually move so it look like real, to make this we make clock on the game
     // with thread
     Thread gameThread;
-
     Player player = new Player(this, keyH); // intansiasi player
-
-    // set player default position
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 4; // player move 4 pixels
 
     public GamePanel() {
         // size of jpanel or content
@@ -92,6 +88,8 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) { // standart method to draw object in java
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+
+        tileM.draw(g2); // make sure draw tile before player, because it like layer.
 
         player.draw(g2);
 
