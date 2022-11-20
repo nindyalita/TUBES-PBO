@@ -22,6 +22,11 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenWidth = tileSize * maxScreenCol; // 768 pixel
     public final int screenHeight = tileSize * maxScreenRow; // 576 pixel
 
+    public final int maxWorldCol = 50;
+    public final int maxWorldRow = 50;
+    public final int maxScreenWidth = tileSize * maxWorldCol;
+    public final int maxScreenHeight = tileSize * maxScreenRow;
+
     // FPS (frame per second)
     int FPS = 60;
 
@@ -32,7 +37,7 @@ public class GamePanel extends JPanel implements Runnable {
     // is actually move so it look like real, to make this we make clock on the game
     // with thread
     Thread gameThread;
-    Player player = new Player(this, keyH); // intansiasi player
+    public Player player = new Player(this, keyH); // intansiasi player
 
     public GamePanel() {
         // size of jpanel or content
