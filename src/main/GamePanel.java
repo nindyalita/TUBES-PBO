@@ -38,6 +38,7 @@ public class GamePanel extends JPanel implements Runnable {
     // with thread
     Thread gameThread;
     public Player player = new Player(this, keyH); // intansiasi player
+    public CollisionChecker cChecker = new CollisionChecker(this);
 
     public GamePanel() {
         // size of jpanel or content
