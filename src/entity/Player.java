@@ -19,6 +19,7 @@ public class Player extends Entity {
     // camera position
     public final int screenX;
     public final int screenY;
+    int hasKey = 0; // indicate how many keys that player have
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
@@ -31,6 +32,8 @@ public class Player extends Entity {
         solidArea = new Rectangle();
         solidArea.x = 8;
         solidArea.y = 16;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
         solidArea.width = 32;
         solidArea.height = 32;
 
@@ -80,6 +83,10 @@ public class Player extends Entity {
             collisionOn = false;
             gp.cChecker.checkTile(this);
 
+            // check object collision
+            int objIndex = gp.cChecker.checkObject(this, true);
+            pickUpObject(objIndex);
+
             // 1. if collision false, player can move
             if (collisionOn == false) {
                 switch (direction) {
@@ -109,6 +116,29 @@ public class Player extends Entity {
             }
         }
 
+    }
+
+    public void pickUpObject(int i) {
+        if (i != 999) { // if 999 we didnt touch an object, but if not 999 we touch an object
+            String objectName = gp.obj[i].name;
+
+            switch (objectName) {
+                case "Key":
+                    hasKey++;
+                    gp.obj[i] = null; // delete object wehen we touch the object
+                    System.out.println("Key : " + hasKey);
+                    break;
+                case "Door":
+                    if (hasKey > 0) {
+                        gp.obj[i] = null;
+                        hasKey--;
+                    }
+                    System.out.println("Key : " + hasKey);
+                    break;
+
+            }
+
+        }
     }
 
     public void draw(Graphics2D g2) {
