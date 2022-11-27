@@ -17,6 +17,7 @@ public class Main {
         window.setLocationRelativeTo(null); // setwindow in center
         window.setVisible(true);
 
+        gamePanel.setUpGame();
         gamePanel.startGameThread();
     }
 }
