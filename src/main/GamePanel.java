@@ -30,7 +30,7 @@ public class GamePanel extends JPanel implements Runnable {
     int FPS = 60;
 
     TileManager tileM = new TileManager(this);
-    KeyHandler keyH = new KeyHandler(); // instansisasi keyhandler
+    KeyHandler keyH = new KeyHandler(this); // instansisasi keyhandler
     // make differenet instansiasi so we can stop base music and play sound effect
     // at the same time
     Sound music = new Sound();
@@ -49,6 +49,11 @@ public class GamePanel extends JPanel implements Runnable {
     // [10] means we can display up to 10 object at the same time
     public SuperObject obj[] = new SuperObject[10];
 
+    // game state
+    public int gameState;
+    public final int playState = 1; // must not 1 or 2, we can choose any number
+    public final int pauseState = 2;
+
     public GamePanel() {
         // size of jpanel or content
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -61,6 +66,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void setUpGame() {
         aSetter.setObject();
         playMusic(0);
+        gameState = playState;
     }
 
     public void startGameThread() {
@@ -102,7 +108,14 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        player.update();
+
+        if (gameState == playState) {
+            player.update();
+        }
+        if (gameState == pauseState) {
+            // we dont update player information while the game is paused
+        }
+
     }
 
     public void paintComponent(Graphics g) { // standart method to draw object in java
