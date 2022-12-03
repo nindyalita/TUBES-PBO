@@ -28,7 +28,6 @@ public class UI {
         arial_80B = new Font("Arial", Font.BOLD, 40);
         OBJ_Key key = new OBJ_Key(gp);
         keyImage = key.image;
-
     }
 
     public void showMessage(String text) {
