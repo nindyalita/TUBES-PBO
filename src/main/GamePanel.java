@@ -31,7 +31,7 @@ public class GamePanel extends JPanel implements Runnable {
     int FPS = 60;
 
     TileManager tileM = new TileManager(this);
-    KeyHandler keyH = new KeyHandler(this); // instansisasi keyhandler
+    public KeyHandler keyH = new KeyHandler(this); // instansisasi keyhandler
     // make differenet instansiasi so we can stop base music and play sound effect
     // at the same time
     Sound music = new Sound();
@@ -55,6 +55,7 @@ public class GamePanel extends JPanel implements Runnable {
     public int gameState;
     public final int playState = 1; // must not 1 or 2, we can choose any number
     public final int pauseState = 2;
+    public final int dialogueState = 3;
 
     public GamePanel() {
         // size of jpanel or content
