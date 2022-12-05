@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import main.GamePanel;
+import java.awt.AlphaComposite;
 import main.UtilityTool;
 
 import java.awt.Rectangle;
@@ -18,32 +19,37 @@ public class Entity {
 
     GamePanel gp;
 
-    public int worldX, worldY;
-    public int speed;
-
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2; // to store out image files
-    public String direction = "down";// can use any position, down means if object not move so it currently down
-
-    public int spriteCounter = 0;
-    public int spriteNum = 1;
-
+    public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackLeft1, attackLeft2, attackRight1,
+            attackRight2;
     // default solid area for all of entity
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
+    public Rectangle attackArea = new Rectangle(0, 0, 0, 0);
     public int solidAreaDefaultX, solidAreaDefaultY;
-    public boolean collisionOn = false;
-    public int actionLockCounter = 0;
+    public BufferedImage image, image2, image3;
+
+    // state
+    public int worldX, worldY;
+    public int spriteNum = 1;
+    public String direction = "down";// can use any position, down means if object not move so it currently down
     public boolean invicible = false;
-    public int invicibleCounter = 0;
     String dialogues[] = new String[20];
     int dialogueIndex = 0;
-    public BufferedImage image, image2, image3;
-    public String name;
     public boolean collision = false;
-    public int type; // 0 = player, 1 = moster, 3 nps, etc;
+    public boolean collisionOn = false;
+    public boolean attacking = false;
 
-    // character status
+    // counter
+    public int actionLockCounter = 0;
+    public int invicibleCounter = 0;
+    public int spriteCounter = 0;
+
+    // character atribute
     public int maxLife;
     public int life;
+    public int type; // 0 = player, 1 = moster, 3 nps, etc;
+    public String name;
+    public int speed;
 
     public Entity(GamePanel gp) {
         this.gp = gp;
@@ -122,6 +128,13 @@ public class Entity {
             }
             spriteCounter = 0;
         }
+        if (invicible == true) {
+            invicibleCounter++;
+            if (invicibleCounter > 40) {
+                invicible = false;
+                invicibleCounter = 0;
+            }
+        }
     }
 
     public void draw(Graphics2D g2) {
@@ -168,17 +181,24 @@ public class Entity {
                     }
                     break;
             }
+
+            if (invicible == true) {
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+            }
+
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
         }
     }
 
-    public BufferedImage setup(String imagePath) {
+    public BufferedImage setup(String imagePath, int width, int height) {
         UtilityTool uTool = new UtilityTool();
         BufferedImage image = null;
 
         try {
             image = ImageIO.read(getClass().getResourceAsStream(imagePath + ".png"));
-            image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
+            image = uTool.scaleImage(image, width, height);
         } catch (IOException e) {
             e.printStackTrace();
         }
