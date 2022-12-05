@@ -53,6 +53,7 @@ public class GamePanel extends JPanel implements Runnable {
     // [10] means we can display up to 10 object at the same time
     public Entity obj[] = new Entity[10];
     public Entity npc[] = new Entity[10];
+    public Entity monster[] = new Entity[20];// 20 means moster we can display at the same time
     ArrayList<Entity> entityList = new ArrayList<>();
 
     // game state
@@ -74,6 +75,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void setUpGame() {
         aSetter.setObject();
         aSetter.setNPC();
+        aSetter.setMonster();
         // playMusic(0);
         gameState = titleState;
     }
@@ -127,6 +129,12 @@ public class GamePanel extends JPanel implements Runnable {
                     npc[i].update();
                 }
             }
+            // moster
+            for (int i = 0; i < monster.length; i++) {
+                if (monster[i] != null) {
+                    monster[i].update();
+                }
+            }
         }
         if (gameState == pauseState) {
             // we dont update player information while the game is paused
@@ -162,7 +170,11 @@ public class GamePanel extends JPanel implements Runnable {
                     entityList.add(obj[i]);
                 }
             }
-
+            for (int i = 0; i < monster.length; i++) {
+                if (monster[i] != null) {
+                    entityList.add(monster[i]);
+                }
+            }
             // sort
             Collections.sort(entityList, new Comparator<Entity>() {
 
