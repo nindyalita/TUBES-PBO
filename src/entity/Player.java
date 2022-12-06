@@ -2,6 +2,8 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
+import object.OBJ_Shield_Wood;
+import object.OBJ_Sword_Normal;
 
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
@@ -52,8 +54,26 @@ public class Player extends Entity {
 
         // player status
         // note: 1 life = half heart, 2 life = 1 full heart, so 6 life = 3 full heart
+        level = 1;
         maxLife = 6; // we can choose any number
         life = maxLife;
+        strength = 1; // the more streng he has, more damage he gives
+        defense = 1; // the more dexteriry his have, less damage her receive
+        exp = 0;
+        nextLevelExp = 5;
+        coin = 0;
+        currentWeapon = new OBJ_Sword_Normal(gp);
+        currentShield = new OBJ_Shield_Wood(gp);
+        attack = getAttack(); // total attack value is decide by strength and weapon
+        defense = getDefense(); // total defense valus is decide bu dexterory and shiedl
+    }
+
+    public int getAttack() {
+        return attack = strength * currentWeapon.attackValue;
+    }
+
+    public int getDefense() {
+        return defense = dexterity * currentShield.defenseValue;
     }
 
     public void getPlayerImage() {
