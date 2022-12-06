@@ -16,6 +16,9 @@ public class Sound {
         soundUrl[2] = getClass().getResource("/sound/powerup.wav");
         soundUrl[3] = getClass().getResource("/sound/unlock.wav");
         soundUrl[4] = getClass().getResource("/sound/fanfare.wav");
+        soundUrl[5] = getClass().getResource("/sound/hitmonster.wav");
+        soundUrl[6] = getClass().getResource("/sound/receivedamage.wav");
+        soundUrl[7] = getClass().getResource("/sound/stairs.wav"); // cari sound untuk pedang
     }
 
     public void setFile(int i) {

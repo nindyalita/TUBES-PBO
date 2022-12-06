@@ -65,4 +65,10 @@ public class MON_GreenSlime extends Entity {
         }
     }
 
+    public void damageReaction() {
+        actionLockCounter = 0;
+        // if player hit the monster, so the monster moving away from the player
+        direction = gp.player.direction;
+    }
+
 }
