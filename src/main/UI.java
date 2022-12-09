@@ -6,6 +6,7 @@ import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import entity.Entity;
 import object.OBJ_Heart;
@@ -20,8 +21,10 @@ public class UI {
     Font maruMonica, purisaB;
     BufferedImage heart_full, heart_half, heart_blank;
     public boolean messageOn = false;
-    public String message = "";
-    int messageCounter = 0;
+    // public String message = "";
+    // int messageCounter = 0;
+    ArrayList<String> message = new ArrayList<>();
+    ArrayList<Integer> messageCounter = new ArrayList<>();
     public boolean gameFinished = false;
     public String currentDialogue = "";
     public int commandNum = 0;
@@ -48,9 +51,9 @@ public class UI {
 
     }
 
-    public void showMessage(String text) {
-        message = text;
-        messageOn = true;
+    public void addMessage(String text) {
+        message.add(text);
+        messageCounter.add(0);
     }
 
     public void draw(Graphics2D g2) {
@@ -67,6 +70,7 @@ public class UI {
         // play state
         if (gp.gameState == gp.playState) {
             drawPlayerLife();
+            drawMessage();
         }
         // pause state
         if (gp.gameState == gp.pauseState) {
@@ -113,6 +117,35 @@ public class UI {
             i++;
             x += gp.tileSize;
 
+        }
+
+    }
+
+    public void drawMessage() {
+        int messageX = gp.tileSize;
+        int messageY = gp.tileSize * 4;
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
+
+        for (int i = 0; i < messageCounter.size(); i++) {
+            if (message.get(i) != null) {
+
+                g2.setColor(Color.black);
+                g2.drawString(message.get(i), messageX + 2, messageY + 2);
+
+                g2.setColor(Color.white);
+                g2.drawString(message.get(i), messageX, messageY);
+
+                // reset messagecounter
+                int counter = messageCounter.get(i) + 1; // message counter++
+                messageCounter.set(i, counter); // set the counter to the array
+                messageY += 50;
+
+                // make text dissamper after while
+                if (messageCounter.get(i) > 180) {
+                    message.remove(i);
+                    messageCounter.remove(i);
+                }
+            }
         }
 
     }

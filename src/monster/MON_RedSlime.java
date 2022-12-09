@@ -19,6 +19,9 @@ public class MON_RedSlime extends Entity {
         speed = 2;
         maxLife = 8;
         life = maxLife;
+        attack = 5;
+        defense = 0;
+        exp = 2;
 
         solidArea.x = 3;
         solidArea.y = 18;
