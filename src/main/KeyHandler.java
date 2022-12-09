@@ -128,6 +128,31 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_C) {
             gp.gameState = gp.playState;
         }
+        // to move slot inventory
+        if (code == KeyEvent.VK_W) {
+            if (gp.ui.slotRow != 0) { // this condition, if row not null so cursor can move
+                gp.ui.slotRow--;
+                gp.playSE(9);
+            }
+        }
+        if (code == KeyEvent.VK_A) {
+            if (gp.ui.slotCol != 0) { // this condition, if col not null so cursor can move
+                gp.ui.slotCol--;
+                gp.playSE(9);
+            }
+        }
+        if (code == KeyEvent.VK_S) {
+            if (gp.ui.slotRow != 3) { // this condition, if row not null so cursor can move
+                gp.ui.slotRow++;
+                gp.playSE(9);
+            }
+        }
+        if (code == KeyEvent.VK_D) {
+            if (gp.ui.slotCol != 4) { // this condition, if row not null so cursor can move
+                gp.ui.slotCol++;
+                gp.playSE(9);
+            }
+        }
     }
 
     @Override
