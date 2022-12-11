@@ -60,6 +60,8 @@ public class Player extends Entity {
         level = 1;
         maxLife = 6; // we can choose any number
         life = maxLife;
+        maxMana = 4;
+        mana = maxMana;
         strength = 1; // the more streng he has, more damage he gives
         defense = 1; // the more dexteriry his have, less damage her receive
         exp = 0;
@@ -203,9 +205,13 @@ public class Player extends Entity {
         }
 
         // we cannot shot another fireball fot the next 30 frame
-        if (gp.keyH.shootKeyPressed == true && projectile.alive == false && shotAvailableCounter == 30) {
+        if (gp.keyH.shootKeyPressed == true && projectile.alive == false && shotAvailableCounter == 30
+                && projectile.haveResource(this) == true) {
             // set default coordinates, direction and user
             projectile.set(worldX, worldY, direction, true, this); // this means, user is player
+
+            // subtract the cost (mana, ammo, etc)
+            projectile.subtractResource(this);
 
             // add it to the list
             gp.projectileList.add(projectile);

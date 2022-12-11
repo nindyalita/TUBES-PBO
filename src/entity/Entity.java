@@ -137,19 +137,7 @@ public class Entity {
         boolean contactPlayer = gp.cChecker.checkPlayer(this);
 
         if (this.type == type_monster && contactPlayer == true) {
-            if (gp.player.invicible == false) {
-                // we can give damage
-                gp.playSE(6);
-
-                int damage = attack - gp.player.defense;
-
-                if (damage < 0) {
-                    damage = 0;
-                }
-                gp.player.life -= damage;
-
-                gp.player.invicible = true;
-            }
+            damagePlayer(attack);
         }
 
         if (collisionOn == false) {
@@ -185,6 +173,26 @@ public class Entity {
                 invicibleCounter = 0;
             }
         }
+        if (shotAvailableCounter < 30) {
+            shotAvailableCounter++;
+        }
+    }
+
+    public void damagePlayer(int attack) {
+        if (gp.player.invicible == false) {
+            // we can give damage
+            gp.playSE(6);
+
+            int damage = attack - gp.player.defense;
+
+            if (damage < 0) {
+                damage = 0;
+            }
+            gp.player.life -= damage;
+
+            gp.player.invicible = true;
+        }
+
     }
 
     public void draw(Graphics2D g2) {
