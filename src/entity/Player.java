@@ -2,6 +2,7 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
+import object.OBJ_Fireball;
 import object.OBJ_Key;
 import object.OBJ_Shield_Wood;
 import object.OBJ_Sword_Normal;
@@ -66,6 +67,7 @@ public class Player extends Entity {
         coin = 0;
         currentWeapon = new OBJ_Sword_Normal(gp);
         currentShield = new OBJ_Shield_Wood(gp);
+        projectile = new OBJ_Fireball(gp);
         attack = getAttack(); // total attack value is decide by strength and weapon
         defense = getDefense(); // total defense valus is decide bu dexterory and shiedl
     }
@@ -199,6 +201,19 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
         }
+
+        // we cannot shot another fireball fot the next 30 frame
+        if (gp.keyH.shootKeyPressed == true && projectile.alive == false && shotAvailableCounter == 30) {
+            // set default coordinates, direction and user
+            projectile.set(worldX, worldY, direction, true, this); // this means, user is player
+
+            // add it to the list
+            gp.projectileList.add(projectile);
+            shotAvailableCounter = 0;
+
+            gp.playSE(10);
+
+        }
         // to make invicble counter time for player
         if (invicible == true) {
             invicibleCounter++;
@@ -206,6 +221,9 @@ public class Player extends Entity {
                 invicible = false;
                 invicibleCounter = 0;
             }
+        }
+        if (shotAvailableCounter < 30) {
+            shotAvailableCounter++;
         }
 
     }
@@ -247,7 +265,7 @@ public class Player extends Entity {
 
             // check moster collsion with update worldx, worldy, solidarea
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
-            damageMonster(monsterIndex);
+            damageMonster(monsterIndex, attack);
 
             // after checking collision, restore the original data
             worldX = currentWorldX;
@@ -292,7 +310,8 @@ public class Player extends Entity {
 
     public void contactMonster(int i) {
         if (i != 999) {
-            if (invicible == false) {
+            if (invicible == false && gp.monster[i].dying == false) { // gp.monter[].dying= false --> means if monter
+                                                                      // die so playere not get damage from monster
                 gp.playSE(6);
 
                 int damage = gp.monster[i].attack - defense;
@@ -306,7 +325,7 @@ public class Player extends Entity {
         }
     }
 
-    public void damageMonster(int i) {
+    public void damageMonster(int i, int attack) {
         if (i != 999) {
             if (gp.monster[i].invicible == false) {
 

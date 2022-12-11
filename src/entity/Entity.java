@@ -48,12 +48,15 @@ public class Entity {
     public int actionLockCounter = 0;
     public int invicibleCounter = 0;
     public int spriteCounter = 0;
+    public int shotAvailableCounter = 0;
     int dyingCounter = 0;
     int hpBarCounter = 0;
 
     // character atribute
     public int maxLife;
     public int life;
+    public int maxMana;
+    public int mana;
     public String name;
     public int speed;
     public int level;
@@ -66,11 +69,13 @@ public class Entity {
     public int coin;
     public Entity currentWeapon;
     public Entity currentShield;
+    public Projectile projectile;
 
     // item atiribute
     public int attackValue;
     public int defenseValue;
     public String description = "";
+    public int useCost;
 
     // type
     public int type; // 0 = player, 1 = moster, 3 nps, etc;
@@ -295,7 +300,6 @@ public class Entity {
         }
         // if counter >40, so monster died
         if (dyingCounter > i * 8) {
-            dying = false;
             alive = false;
         }
 
