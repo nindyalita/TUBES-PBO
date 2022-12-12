@@ -4,6 +4,9 @@ import java.util.Random;
 
 import entity.Entity;
 import main.GamePanel;
+import object.OBJ_Axe;
+import object.OBJ_Coin_Bronze;
+import object.OBJ_ManaCrystal;
 
 public class MON_GreenSlime extends Entity {
 
@@ -72,6 +75,23 @@ public class MON_GreenSlime extends Entity {
         actionLockCounter = 0;
         // if player hit the monster, so the monster moving away from the player
         direction = gp.player.direction;
+    }
+
+    // check monster when die
+    public void checkDrop() {
+        int i = new Random().nextInt(100) + 1; // we can choose any number
+
+        // set the monster drop
+        if (i < 50) {
+            dropItem(new OBJ_Coin_Bronze(gp));
+        }
+        if (i >= 50 && i < 75) {
+            dropItem(new OBJ_Axe(gp));
+        }
+        if (i >= 75 && i < 100) {
+            dropItem(new OBJ_ManaCrystal(gp));
+        }
+
     }
 
 }

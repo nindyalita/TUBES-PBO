@@ -231,6 +231,12 @@ public class Player extends Entity {
         if (shotAvailableCounter < 30) {
             shotAvailableCounter++;
         }
+        if (life > maxLife) {
+            life = maxLife;
+        }
+        if (mana > maxMana) {
+            mana = maxMana;
+        }
 
     }
 
@@ -288,19 +294,30 @@ public class Player extends Entity {
     }
 
     public void pickUpObject(int i) {
-        if (i != 999) { // if 999 we didnt touch an object, but if not 999 we touch an object
-            String text;
 
-            // check, if inventory not full, we can add item
-            if (inventory.size() != maxInventorySize) {
-                inventory.add(gp.obj[i]);
-                gp.playSE(1);
-                text = "Got a " + gp.obj[i].name + "!";
-            } else {
-                text = "You cannot carry any more!";
+        if (i != 999) { // if 999 we didnt touch an object, but if not 999 we touch an object
+
+            // pick up only item
+            if (gp.obj[i].type == type_pickUpOnly) {
+                gp.obj[i].use(this);
+                gp.obj[i] = null;
             }
-            gp.ui.addMessage(text);
-            gp.obj[i] = null;
+
+            // pick up to inventory item
+            else {
+                String text;
+
+                // check, if inventory not full, we can add item
+                if (inventory.size() != maxInventorySize) {
+                    inventory.add(gp.obj[i]);
+                    gp.playSE(1);
+                    text = "Got a " + gp.obj[i].name + "!";
+                } else {
+                    text = "You cannot carry any more!";
+                }
+                gp.ui.addMessage(text);
+                gp.obj[i] = null;
+            }
         }
     }
 
@@ -365,7 +382,7 @@ public class Player extends Entity {
         if (exp >= nextLevelExp) {
             level++;
             nextLevelExp = nextLevelExp * 2;
-            maxLife += 2;
+            maxLife += 0;
             strength++;
             dexterity++;
             attack = getAttack();

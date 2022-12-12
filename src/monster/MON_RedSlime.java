@@ -4,6 +4,7 @@ import java.util.Random;
 
 import entity.Entity;
 import main.GamePanel;
+import object.OBJ_Key;
 import object.OBJ_Rock;
 
 public class MON_RedSlime extends Entity {
@@ -82,4 +83,20 @@ public class MON_RedSlime extends Entity {
         direction = gp.player.direction;
     }
 
+    // check monster when die
+    public void checkDrop() {
+        int i = new Random().nextInt(100) + 1; // we can choose any number
+
+        // set the monster drop
+        if (i < 50) {
+            dropItem(new OBJ_Key(gp));
+        }
+        if (i >= 50 && i < 75) {
+            dropItem(new OBJ_Key(gp));
+        }
+        if (i >= 75 && i < 100) {
+            dropItem(new OBJ_Key(gp));
+        }
+
+    }
 }
