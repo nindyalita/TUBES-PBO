@@ -174,10 +174,10 @@ public class Entity {
          * create new particle with all the parameters
          * -1 in xd and yd means particles will moves to top left direction
          */
-        Particle p1 = new Particle(gp, generator, color, size, speed, maxLife, -2, -1);
-        Particle p2 = new Particle(gp, generator, color, size, speed, maxLife, 2, -1);
-        Particle p3 = new Particle(gp, generator, color, size, speed, maxLife, -2, 1);
-        Particle p4 = new Particle(gp, generator, color, size, speed, maxLife, 2, 1);
+        Particle p1 = new Particle(gp, target, color, size, speed, maxLife, -2, -1);
+        Particle p2 = new Particle(gp, target, color, size, speed, maxLife, 2, -1);
+        Particle p3 = new Particle(gp, target, color, size, speed, maxLife, -2, 1);
+        Particle p4 = new Particle(gp, target, color, size, speed, maxLife, 2, 1);
         gp.particleList.add(p1);
         gp.particleList.add(p2);
         gp.particleList.add(p3);

@@ -3,10 +3,13 @@ package main;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.awt.Dimension;
+import java.awt.image.BufferedImage;
+import java.awt.GraphicsEnvironment;
 
 import javax.swing.JPanel;
 
@@ -22,13 +25,18 @@ public class GamePanel extends JPanel implements Runnable {
     final int scale = 3; // we make object with 16x16 pixel but lok in the screen in 48x48
 
     public final int tileSize = orginalTileSize * scale; // 48x48
-    public final int maxScreenCol = 16;// max col to see in the screen
+    public final int maxScreenCol = 20;// max col to see in the screen
     public final int maxScreenRow = 12;// max row to see in the screen
     public final int screenWidth = tileSize * maxScreenCol; // 768 pixel
     public final int screenHeight = tileSize * maxScreenRow; // 576 pixel
-
+    // world settings
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 50;
+    // for fullscreen
+    int screenWidth2 = screenWidth;
+    int screenHeight2 = screenHeight;
+    BufferedImage tempScreen;
+    Graphics2D g2;
 
     // FPS (frame per second)
     int FPS = 60;
@@ -84,7 +92,27 @@ public class GamePanel extends JPanel implements Runnable {
         aSetter.setNPC();
         aSetter.setMonster();
         aSetter.setInteractiveTile();
+        // playMusic(0);
         gameState = titleState;
+
+        tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
+        g2 = (Graphics2D) tempScreen.getGraphics();
+
+        // * uncomment this line to set to full screen
+        // setFullScreen();
+    }
+
+    public void setFullScreen() {
+
+        // GET LOCAL SCREEN DEVICE
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice gd = ge.getDefaultScreenDevice();
+        gd.setFullScreenWindow(Main.window);
+
+        // GET FULL SCREEN WIDTH AND HEIGHT
+        screenWidth2 = Main.window.getWidth();
+        screenHeight2 = Main.window.getHeight();
+
     }
 
     public void startGameThread() {
@@ -110,7 +138,9 @@ public class GamePanel extends JPanel implements Runnable {
 
             if (delta >= 1) {
                 update();
-                repaint();
+                // repaint();
+                drawToTempScreen(); // draw everything to buffered image
+                drawToScreen(); // draw the buffered image to the screen
                 delta--;
 
             }
@@ -182,10 +212,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     }
 
-    public void paintComponent(Graphics g) { // standart method to draw object in java
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
-
+    public void drawToTempScreen() {
         // debug
         long drawStart = 0;
         if (keyH.checkDrawTime == true) {
@@ -264,9 +291,103 @@ public class GamePanel extends JPanel implements Runnable {
             g2.drawString("Draw Time :" + passed, 10, 400);
             System.out.println("Draw Time:" + passed);
         }
-
-        g2.dispose();
     }
+
+    public void drawToScreen() {
+        Graphics g = getGraphics();
+        g.drawImage(tempScreen, 0, 0, screenWidth2, screenHeight2, null);
+        g.dispose();
+
+    }
+
+    /*
+     * public void paintComponent(Graphics g) { // standart method to draw object in
+     * java
+     * super.paintComponent(g);
+     * Graphics2D g2 = (Graphics2D) g;
+     * 
+     * // debug
+     * long drawStart = 0;
+     * if (keyH.checkDrawTime == true) {
+     * drawStart = System.nanoTime();
+     * }
+     * 
+     * // title screen
+     * if (gameState == titleState) {
+     * ui.draw(g2);
+     * } else {
+     * 
+     * // tile
+     * tileM.draw(g2);
+     * 
+     * // interactive tile
+     * for (int i = 0; i < iTile.length; i++) {
+     * if (iTile[i] != null) {
+     * iTile[i].draw(g2);
+     * }
+     * }
+     * 
+     * // add entity to arraylist
+     * entityList.add(player);
+     * for (int i = 0; i < npc.length; i++) {
+     * if (npc[i] != null) {
+     * entityList.add(npc[i]);
+     * }
+     * }
+     * for (int i = 0; i < obj.length; i++) {
+     * if (obj[i] != null) {
+     * entityList.add(obj[i]);
+     * }
+     * }
+     * for (int i = 0; i < monster.length; i++) {
+     * if (monster[i] != null) {
+     * entityList.add(monster[i]);
+     * }
+     * }
+     * for (int i = 0; i < projectileList.size(); i++) {
+     * if (projectileList.get(i) != null) {
+     * entityList.add(projectileList.get(i));
+     * }
+     * }
+     * for (int i = 0; i < particleList.size(); i++) {
+     * if (particleList.get(i) != null) {
+     * entityList.add(particleList.get(i));
+     * }
+     * }
+     * 
+     * // sort
+     * Collections.sort(entityList, new Comparator<Entity>() {
+     * 
+     * @Override
+     * public int compare(Entity o1, Entity o2) {
+     * int result = Integer.compare(o1.worldY, o2.worldX);
+     * return result;
+     * }
+     * 
+     * });
+     * 
+     * // draw entity
+     * for (int i = 0; i < entityList.size(); i++) {
+     * entityList.get(i).draw(g2);
+     * }
+     * // empty entity list
+     * entityList.clear();
+     * 
+     * // ui
+     * ui.draw(g2);
+     * }
+     * 
+     * if (keyH.checkDrawTime == true) {
+     * long drawEnd = System.nanoTime();
+     * long passed = drawEnd - drawStart;
+     * g2.setColor(Color.white);
+     * g2.drawString("Draw Time :" + passed, 10, 400);
+     * System.out.println("Draw Time:" + passed);
+     * }
+     * 
+     * g2.dispose();
+     * }
+     */
 
     public void playMusic(int i) {
         music.setFile(i);
