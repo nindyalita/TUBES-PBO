@@ -20,7 +20,7 @@ import tile_interactive.InteractiveTile;
 
 public class GamePanel extends JPanel implements Runnable {
 
-    // screen settings
+    // SCREEN SETTINGS
     final int orginalTileSize = 16; // original size of character or object
     final int scale = 3; // we make object with 16x16 pixel but lok in the screen in 48x48
 
@@ -29,14 +29,17 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxScreenRow = 12;// max row to see in the screen
     public final int screenWidth = tileSize * maxScreenCol; // 768 pixel
     public final int screenHeight = tileSize * maxScreenRow; // 576 pixel
-    // world settings
+
+    // WORLD SETTINGS
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 50;
-    // for fullscreen
+
+    // FOR FULLSCREEN
     int screenWidth2 = screenWidth;
     int screenHeight2 = screenHeight;
     BufferedImage tempScreen;
     Graphics2D g2;
+    boolean fullScreenOn = false;
 
     // FPS (frame per second)
     int FPS = 60;
@@ -45,6 +48,7 @@ public class GamePanel extends JPanel implements Runnable {
     public KeyHandler keyH = new KeyHandler(this); // instansisasi keyhandler
     // make differenet instansiasi so we can stop base music and play sound effect
     // at the same time
+
     Sound music = new Sound();
     Sound se = new Sound();
 
@@ -58,10 +62,9 @@ public class GamePanel extends JPanel implements Runnable {
     // with thread
     Thread gameThread;
 
-    // entity and object
+    // ENTITY AND OBJECT
     public Player player = new Player(this, keyH); // intansiasi player
-    // [10] means we can display up to 10 object at the same time
-    public Entity obj[] = new Entity[20];
+    public Entity obj[] = new Entity[20]; // [10] means we can display up to 10 object at the same time
     public Entity npc[] = new Entity[10];
     public Entity monster[] = new Entity[20];// 20 means moster we can display at the same time
     public InteractiveTile iTile[] = new InteractiveTile[50];
@@ -70,13 +73,15 @@ public class GamePanel extends JPanel implements Runnable {
 
     public ArrayList<Entity> projectileList = new ArrayList<>();
 
-    // game state
+    // GAME STATE
     public int gameState;
     public final int titleState = 0;
     public final int playState = 1; // must not 1 or 2, we can choose any number
     public final int pauseState = 2;
     public final int dialogueState = 3;
     public final int characterState = 4;
+
+    public final int optionsState = 5;
 
     public GamePanel() {
         // size of jpanel or content
