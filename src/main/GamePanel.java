@@ -83,8 +83,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int pauseState = 2;
     public final int dialogueState = 3;
     public final int characterState = 4;
-
     public final int optionsState = 5;
+    public final int gameOverState = 6;
 
     public GamePanel() {
         // size of jpanel or content
@@ -109,6 +109,29 @@ public class GamePanel extends JPanel implements Runnable {
         if (fullScreenOn == true) {
             setFullScreen();
         }
+    }
+
+    public void retry() {
+        // restore players default position, life and mana, npc, monsters and object
+        player.setDefaultPosition();
+        player.restoreLifeAndMana();
+        aSetter.setNPC();
+        aSetter.setMonster();
+    }
+
+    public void restart() {
+        // reset everything in the game
+
+        // setdefaultvalues also restore default position life and mana
+        player.setDefaultValues();
+        // player.setDefaultPosition();
+        // player.restoreLifeAndMana();
+        player.setItems();
+        aSetter.setObject();
+        aSetter.setNPC();
+        aSetter.setMonster();
+        aSetter.setInteractiveTile();
+
     }
 
     public void setFullScreen() {

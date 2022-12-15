@@ -74,7 +74,20 @@ public class Player extends Entity {
         defense = getDefense(); // total defense valus is decide bu dexterory and shiedl
     }
 
+    public void setDefaultPosition() {
+        worldX = gp.tileSize * 23; // start position
+        worldY = gp.tileSize * 21; // start position
+        direction = "down";
+    }
+
+    public void restoreLifeAndMana() {
+        life = maxLife;
+        mana = maxMana;
+        invicible = false;
+    }
+
     public void setItems() {
+        inventory.clear();
         inventory.add(currentWeapon);
         inventory.add(currentShield);
         inventory.add(new OBJ_Key(gp));
@@ -239,6 +252,11 @@ public class Player extends Entity {
         }
         if (mana > maxMana) {
             mana = maxMana;
+        }
+
+        if (life <= 0) {
+            gp.gameState = gp.gameOverState;
+            gp.playSE(12);
         }
 
     }
@@ -413,7 +431,7 @@ public class Player extends Entity {
             defense = getDefense();
             gp.playSE(8);
             gp.gameState = gp.dialogueState;
-            gp.ui.currentDialogue = "You are level " + level + "now";
+            gp.ui.currentDialogue = "You are level " + level + " now!\nYou Feel Stronger!";
         }
     }
 
