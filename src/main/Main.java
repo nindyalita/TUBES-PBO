@@ -12,11 +12,13 @@ public class Main {
         window.setResizable(false); // cannot resized window
         window.setTitle("Treasure Hunting Game");
 
-        // * uncomment line ini untuk menampilkan top bar
-        // window.setUndecorated(true);
-
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel); // add gamepanel to frame
+
+        gamePanel.config.loadConfig();
+        if (gamePanel.fullScreenOn == true) {
+            window.setUndecorated(true);
+        }
 
         window.pack(); // frame menyesuaikan dengan gamepanel/konten
 
