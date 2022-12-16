@@ -330,11 +330,10 @@ public class Player extends Entity {
                     }
                 }
                 if (hasKey == true) {
-                    // gp.ui.currentDialogue = "You open the door!";
-
                     inventory.remove(keyIndex);
-                    // gp.obj[i] = null;
                     gp.gameState = gp.winState;
+                    gp.stopMusic();
+                    gp.playSE(4);
                 } else {
                     gp.ui.currentDialogue = "You have no Key!\nDefeat the monsters to get the key.";
                     gp.gameState = gp.dialogueState;
