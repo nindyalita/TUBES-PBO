@@ -196,7 +196,7 @@ public class UI {
 
         // title name
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 96F));
-        String text = "Treasure Adventure";
+        String text = "Treasure Hunting Game";
         int x = getXforCenteredText(text);
         int y = gp.tileSize * 3;
 
@@ -215,7 +215,7 @@ public class UI {
         // menu
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48F));
 
-        text = "NEW GAME";
+        text = "PLAY GAME";
         x = getXforCenteredText(text);
         y += gp.tileSize * 3.5;
         g2.drawString(text, x, y);
@@ -223,19 +223,11 @@ public class UI {
             g2.drawString(">", x - gp.tileSize, y);
         }
 
-        text = "LOAD GAME";
-        x = getXforCenteredText(text);
-        y += gp.tileSize;
-        g2.drawString(text, x, y);
-        if (commandNum == 1) {
-            g2.drawString(">", x - gp.tileSize, y);
-        }
-
         text = "QUIT GAME";
         x = getXforCenteredText(text);
         y += gp.tileSize;
         g2.drawString(text, x, y);
-        if (commandNum == 2) {
+        if (commandNum == 1) {
             g2.drawString(">", x - gp.tileSize, y);
         }
     }

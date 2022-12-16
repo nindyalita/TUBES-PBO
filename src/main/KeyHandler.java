@@ -60,14 +60,14 @@ public class KeyHandler implements KeyListener {
             // condition to make the "<" not hide when move after quit or before new game
             // menu
             if (gp.ui.commandNum < 0) {
-                gp.ui.commandNum = 2;
+                gp.ui.commandNum = 1;
             }
         }
         if (code == KeyEvent.VK_S) {
             gp.ui.commandNum++;
             // condition to make the "<" not hide when move after quit or before new game
             // menu
-            if (gp.ui.commandNum > 2) {
+            if (gp.ui.commandNum > 1) {
                 gp.ui.commandNum = 0;
             }
             // to select the menu with enter
