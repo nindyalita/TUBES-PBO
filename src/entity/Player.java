@@ -91,6 +91,8 @@ public class Player extends Entity {
         inventory.add(currentWeapon);
         inventory.add(currentShield);
         inventory.add(new OBJ_Key(gp));
+        inventory.add(new OBJ_Key(gp));
+        inventory.add(new OBJ_Key(gp));
 
     }
 
@@ -320,9 +322,48 @@ public class Player extends Entity {
     public void pickUpObject(int i) {
 
         if (i != 999) { // if 999 we didnt touch an object, but if not 999 we touch an object
+            if (gp.obj[i].type == type_chest) {
+                boolean hasKey = false;
+                int keyIndex = 0;
 
+                for (int l = 0; l < inventory.size(); l++) {
+                    if (inventory.get(l) instanceof OBJ_Key) {
+                        hasKey = true;
+                        keyIndex = l;
+                    }
+                }
+                if (hasKey == true) {
+                    // gp.ui.currentDialogue = "You open the door!";
+
+                    inventory.remove(keyIndex);
+                    // gp.obj[i] = null;
+                    gp.gameState = gp.winState;
+                } else {
+                    gp.ui.currentDialogue = "You have no Key!\nDefeat the monsters to get the key.";
+                    gp.gameState = gp.dialogueState;
+                }
+            } else if (gp.obj[i].type == type_door) {
+                boolean hasKey = false;
+                int keyIndex = 0;
+
+                for (int l = 0; l < inventory.size(); l++) {
+                    if (inventory.get(l) instanceof OBJ_Key) {
+                        hasKey = true;
+                        keyIndex = l;
+                    }
+                }
+                if (hasKey == true) {
+                    gp.ui.currentDialogue = "You open the door!";
+                    inventory.remove(keyIndex);
+                    gp.obj[i] = null;
+                    gp.gameState = gp.dialogueState;
+                } else {
+                    gp.ui.currentDialogue = "You have no Key!\nDefeat the monsters to get the key.";
+                    gp.gameState = gp.dialogueState;
+                }
+            }
             // pick up only item
-            if (gp.obj[i].type == type_pickUpOnly) {
+            else if (gp.obj[i].type == type_pickUpOnly) {
                 gp.obj[i].use(this);
                 gp.obj[i] = null;
             }

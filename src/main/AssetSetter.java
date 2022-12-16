@@ -4,7 +4,9 @@ import entity.NPC_OldMan;
 import monster.MON_GreenSlime;
 import monster.MON_RedSlime;
 import object.OBJ_Axe;
+import object.OBJ_Chest;
 import object.OBJ_Coin_Bronze;
+import object.OBJ_Door;
 import object.OBJ_ManaCrystal;
 import object.OBJ_Potion_Red;
 import object.OBJ_Shield_Blue;
@@ -43,6 +45,18 @@ public class AssetSetter {
         gp.obj[i] = new OBJ_Potion_Red(gp);
         gp.obj[i].worldX = gp.tileSize * 22;
         gp.obj[i].worldY = gp.tileSize * 27;
+        i++;
+        gp.obj[i] = new OBJ_Door(gp);
+        gp.obj[i].worldX = gp.tileSize * 12;
+        gp.obj[i].worldY = gp.tileSize * 23;
+        i++;
+        gp.obj[i] = new OBJ_Door(gp);
+        gp.obj[i].worldX = gp.tileSize * 10;
+        gp.obj[i].worldY = gp.tileSize * 12;
+        i++;
+        gp.obj[i] = new OBJ_Chest(gp);
+        gp.obj[i].worldX = gp.tileSize * 10;
+        gp.obj[i].worldY = gp.tileSize * 8;
     }
 
     public void setNPC() {

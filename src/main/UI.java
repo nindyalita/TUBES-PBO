@@ -101,6 +101,10 @@ public class UI {
         if (gp.gameState == gp.gameOverState) {
             drawGameOverScreen();
         }
+        // win state
+        if (gp.gameState == gp.winState) {
+            drawWinScreen();
+        }
     }
 
     public void drawPlayerLife() {
@@ -476,7 +480,40 @@ public class UI {
 
     }
 
-    private void drawOptionsScreen() {
+    public void drawWinScreen() {
+        g2.setColor(new Color(0, 0, 0, 150));
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+
+        int x;
+        int y;
+
+        String text;
+
+        // you found treasure text
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 30f));
+        g2.setColor(Color.white);
+
+        text = "You found the treasure!!";
+        x = getXforCenteredText(text);
+        y = gp.tileSize * 2;
+        g2.drawString(text, x, y);
+
+        // // congratulations text
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 110f));
+        text = "Congratulations!";
+
+        // // text shadow
+        g2.setColor(Color.black);
+        x = getXforCenteredText(text);
+        y += gp.tileSize * 5;
+        g2.drawString(text, x, y);
+
+        // Main text
+        g2.setColor(Color.yellow);
+        g2.drawString(text, x - 4, y - 4);
+    }
+
+    public void drawOptionsScreen() {
 
         g2.setColor(Color.white);
         g2.setFont(g2.getFont().deriveFont(32F));
