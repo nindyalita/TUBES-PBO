@@ -90,7 +90,6 @@ public class Player extends Entity {
         inventory.clear();
         inventory.add(currentWeapon);
         inventory.add(currentShield);
-
     }
 
     public int getAttack() {
@@ -352,6 +351,7 @@ public class Player extends Entity {
                     gp.ui.currentDialogue = "You open the door!";
                     inventory.remove(keyIndex);
                     gp.obj[i] = null;
+                    gp.playSE(3);
                     gp.gameState = gp.dialogueState;
                 } else {
                     gp.ui.currentDialogue = "You have no Key!\nDefeat the monsters to get the key.";

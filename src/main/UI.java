@@ -511,6 +511,26 @@ public class UI {
         // Main text
         g2.setColor(Color.yellow);
         g2.drawString(text, x - 4, y - 4);
+
+        // Retry
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 50f));
+        g2.setColor(Color.white);
+        text = "Retry";
+        x = getXforCenteredText(text);
+        y += gp.tileSize * 2;
+        g2.drawString(text, x, y);
+        if (commandNum == 0) {
+            g2.drawString(">", x - 40, y);
+        }
+
+        // Back to title Screen
+        text = "Quit";
+        x = getXforCenteredText(text);
+        y += 55;
+        g2.drawString(text, x, y);
+        if (commandNum == 1) {
+            g2.drawString(">", x - 40, y);
+        }
     }
 
     public void drawOptionsScreen() {
